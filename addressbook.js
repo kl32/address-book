@@ -1,13 +1,42 @@
-const newUser = [];
+"use strict";
 
-function get(){
-    fetch("https://randomuser.me/api/")
-      .then( res => res.json())
-      .then( data => console.log("Array of data: ",data))
-      .catch( err => console.log("oops, looks like we got an error: ", err))
-      .finally( ()=> console.log("finally, This function always runs...")) // Whether or not there's an error or success, this will happen such as stopping a loading wheel on the front end
-      
-      return newUser;
+let userData = [];
+
+function fetchRequest(url) {
+    return fetch(url)
+      .then(res => res.json())
+      .catch(err => console.log("Something went wrong"));
+  }
+  
+  
+    fetchRequest("https://randomuser.me/api/")
+  .then(data => {
+      console.log(data);
+  
+      const image = data.results["0"].picture.large;
+      const fName = data.results["0"].name.first;
+      const lName = data.results["0"].name.last;
+      const address = data.results["0"].location.street;
+  
+      getImg(image);   
+      getUser(fName, lName);  
+      pushAddress(address);
+  
+  });
+
+  function getUser(f,l) {
+    document.getElementById("aPerson").innerHTML = f +" "+ l;
   }
 
+  function getImg(img) {
+    cardImg.innerHTML = `<img src=${img}>`
+  }
+
+  function pushAddress(add){
+      userData.push(add)
+  }
+
+  function getData(){
+      moreData.innerHTML = userData
+  }
  
